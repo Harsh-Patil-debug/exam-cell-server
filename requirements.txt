@@ -1,0 +1,39 @@
+# Smart Exam Cell Queue System — backend dependencies
+# Pinned to the versions this app is actually built and tested against.
+# Regenerate deliberately (not via a blind `pip freeze`) — this file should only ever
+# list what exam_project.main actually imports, so a fresh `pip install -r
+# requirements.txt` reproduces the real, verified runtime.
+
+# ── Django / API ──────────────────────────────
+Django==4.2.30
+djangorestframework==3.14.0
+django-cors-headers==4.5.0
+asgiref==3.8.1
+sqlparse==0.5.5
+gunicorn==21.2.0
+# Django resolves TIME_ZONE='Asia/Kolkata' through zoneinfo, which has no system tz
+# database to read from on Windows — without this, local Windows dev fails at startup.
+tzdata==2024.2
+
+# ── MongoDB ───────────────────────────────────
+pymongo==3.11.4
+# pymongo needs dnspython at runtime to resolve mongodb+srv:// URIs (MongoDB Atlas's
+# standard connection string format) — never imported directly by app code, so a static
+# import audit won't catch it missing.
+dnspython==2.7.0
+# db_connection.py pins TLS verification to this CA bundle explicitly for Atlas.
+certifi==2024.12.14
+
+# ── Auth / crypto ─────────────────────────────
+PyJWT==2.10.1
+# Argon2id password hashing.
+argon2-cffi==25.1.0
+# AES-256-GCM field encryption (crypto.py).
+cryptography==44.0.0
+# Verifying Google ID tokens (google.oauth2.id_token).
+google-auth==2.37.0
+# Google token exchange + Brevo email API.
+requests==2.32.3
+
+# ── Config ──────────────────────────────────────
+python-dotenv==1.0.1

@@ -1,0 +1,46 @@
+# ── Environment & Secrets ─────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual Environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Django ────────────────────────────────────────────────────────────────────
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+mediafiles/
+*.log
+
+# ── Throwaway verification scripts (see server/scratch/) ───────────────────────
+# One-off scripts written to verify a fix against the real database, then normally
+# deleted after use — never meant to ship. Ignored here as a backstop for any that
+# were left behind.
+server/scratch/
+
+# ── IDE / Editor ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

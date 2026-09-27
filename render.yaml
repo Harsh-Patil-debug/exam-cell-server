@@ -1,0 +1,54 @@
+# Render Blueprint — see https://render.com/docs/blueprint-spec
+#
+# requirements.txt lives at the repo root but the Django project itself lives in
+# server/, so build/start commands install from root then `cd server` for anything
+# Django-specific.
+services:
+  - type: web
+    name: exam-cell-server
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && cd server && python manage.py collectstatic --noinput && python manage.py migrate"
+    # --timeout 60: Render's free-tier CPU is heavily throttled and a cold Mongo Atlas
+    # connection can brush against gunicorn's default 30s worker timeout.
+    startCommand: "cd server && gunicorn server.wsgi:application --bind 0.0.0.0:$PORT --timeout 60"
+    envVars:
+      # Secrets — set these manually in the Render dashboard (Environment tab); never
+      # commit real values. See server/.env.example for what each one does.
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: MONGO_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FIELD_ENCRYPTION_KEY
+        sync: false
+      - key: BLIND_INDEX_KEY
+        sync: false
+      - key: STAFF_EMAILS
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: BREVO_API_KEY
+        sync: false
+      - key: EMAIL_SENDER_ADDRESS
+        sync: false
+      - key: BACKEND_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: ALLOWED_HOSTS
+        sync: false
+      # Non-secret config — safe defaults, override in the dashboard if needed.
+      - key: DEBUG
+        value: "False"
+      - key: MONGO_DB_NAME
+        value: ExamCellQueueDB
+      - key: COUNTER_COUNT
+        value: "3"
+      - key: PYTHON_VERSION
+        value: "3.12.0"
