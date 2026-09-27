@@ -33,7 +33,8 @@ services:
         sync: false
       - key: BREVO_API_KEY
         sync: false
-      - key: EMAIL_SENDER_ADDRESS
+      # "Display Name <address@example.com>" — the address must be a verified Brevo sender.
+      - key: EMAIL_SENDER
         sync: false
       - key: BACKEND_URL
         sync: false
